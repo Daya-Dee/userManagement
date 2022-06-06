@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import font
 import json
 import os
+from PIL import ImageTk, Image
 
 if not os.path.exists("./user.json"):
     with open("./user.json", "w+") as f:
@@ -103,7 +104,20 @@ class C:
     
         Label(self.screen1, text = "").pack()
         Button(self.screen1, text = "Login", width = 10, height = 1, command = self.runLoginChecks).pack()
-    
+
+    def postlogin(self):
+        self.screen2 = Toplevel(self.screen)
+        self.screen2.title("You're logged in! :D")
+        self.screen2.geometry("500x500")
+        
+        img = Image.open("cat.png")
+        img = img.resize((300,300), Image.ANTIALIAS)
+        test = ImageTk.PhotoImage(img)
+        
+        l1 = Label(self.screen2, image=test)
+        l1.image = test
+        l1.pack()
+
     def check_login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
@@ -119,6 +133,7 @@ class C:
             #if we're here, this failed login
             return
         Label(self.screen1, text = "Login Success", fg = "green", font=("Lucida Calligraphy", 11)).pack()
+        self.postlogin()
         
     def main_screen(self):
         self.screen = Tk()
